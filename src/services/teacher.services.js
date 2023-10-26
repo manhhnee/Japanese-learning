@@ -47,7 +47,7 @@ class teacherService {
     async teacherDetails(id_teacher) {
         const teacher = await db.User.findOne({
             where: {
-                user_id: id_teacher,
+                id: id_teacher,
             },
             attributes: {
                 exclude: ['password','createdAt','updatedAt'],

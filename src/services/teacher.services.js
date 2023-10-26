@@ -1,7 +1,7 @@
 const ErrorsWithStatus = require('../constants/Error');
 const HTTP_STATUS = require('../constants/httpStatus');
 const db = require('../models');
-
+const { Op } = require('sequelize');
 
 class teacherService {
     async getListTeacher(limit,page,search) {

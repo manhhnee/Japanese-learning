@@ -63,5 +63,31 @@ class teacherService {
             result: teacher,
         }
     }
+    async createData(req,res,next) {
+        for(let i = 0 ; i< 100; i++) {
+            const user = await db.User.create({
+                id: i,
+                nick_name: 'teacher'+ i,
+                mail: `teacher${i}@example.com`,
+                password: '',
+                role: 'teacher',
+                gender: Math.random() >= 0.8 ? 1 : 0,
+                first_name:`teacher`,
+                last_name: i.toString(),
+                dob: new Date(),
+                status: Math.random() > 0.2 ? 1 : 0,
+                avatar: 'https://lawnet.vn/uploads/image/2020/10/08/Giao-vien-tieu-hoc-trung-hoc-can-phai-lam-gi-khi-chua-co-bang-dai-hoc(1).jpg'
+            });
+            await db.Teacher.create({
+                id:i,
+                user_id: user.id,
+                detail_infor: Math.random() >= 0.5 ? 'nihongo ga jozu desu' : 'nihongo ga omoshiroi desu',
+                experience: `${i} năm`,
+                jp_level: Math.random() >= 0.6 ? 'N1' : 'N2',
+            })
+        }
+        res.json({success: true})
+
+    }
 }
 module.exports = new teacherService();

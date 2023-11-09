@@ -51,14 +51,14 @@ class CourseServices {
         });
         const Courses = JSON.parse(JSON.stringify(courses));
         for (let i = 0; i < Courses.length; i++) {
-            const rating = await db.rating_course.findAll({
+            const rating = await db.Rating.findAll({
                 where: {
                     course_id: Courses[i].id,
                 },
-                attributes: [[db.sequelize.fn('AVG', db.sequelize.col('rate')), 'totalStar']],
+                attributes: [[db.sequelize.fn('AVG', db.sequelize.col('star')), 'totalStar']],
             });
             const Rating = JSON.parse(JSON.stringify(rating));
-            Courses[i].totalStar = Rating[0].totalStar ? Rating[0].totalStar : 0;
+            Courses[i].totalStar = Rating[0].totalStar ? Number(Rating[0].totalStar).toFixed(1) : 0;
         }
         const totalPages = Math.ceil(Count / limit);
         return {
@@ -95,24 +95,32 @@ class CourseServices {
             ],
         });
         const Course = JSON.parse(JSON.stringify(course));
-        const rating = await db.rating_course.findAll({
+        const star = await db.Rating.findAll({
             where: {
                 course_id: id_course,
             },
-            attributes: [[db.sequelize.fn('AVG', db.sequelize.col('rate')), 'totalStar']],
+            attributes: [[db.sequelize.fn('AVG', db.sequelize.col('star')), 'totalStar']],
         });
-        const Rating = JSON.parse(JSON.stringify(rating));
-        Course.totalStar = Rating[0].totalStar ? Rating[0].totalStar : 0;
-        const comment = await db.review_course.findAll({
+        const Star = JSON.parse(JSON.stringify(star));
+        Course.totalStar = Star[0].totalStar ? Number(Star[0].totalStar).toFixed(1) : 0;
+        const rating = await db.Rating.findAll({
             where: {
                 course_id: id_course,
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt'],
             },
+            include: [
+                {
+                    model: db.User,
+                    attributes: {
+                        exclude: ['id', 'password', 'createdAt', 'updatedAt'],
+                    },
+                },
+            ],
         });
-        const Comment = JSON.parse(JSON.stringify(comment));
-        Course.comment = Comment;
+        const Rating = JSON.parse(JSON.stringify(rating));
+        Course.Rating = Rating;
         return Course;
     }
 }

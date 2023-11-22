@@ -46,25 +46,17 @@ class UserServices {
         };
     }
 
-    // async getProfile(userID) {
-    //     const user = await db.Account.findOne({
-    //         where: { id: userID },
-    //         attributes: {
-    //             exclude: ['password', 'forgot_password_token', 'id_role'],
-    //         },
-    //         include: [
-    //             { model: db.Role, as: 'Role', attributes: ['id', 'roleName'] },
-    //             {
-    //                 model: db.inforUser,
-    //                 as: 'inforUser',
-    //                 attributes: ['firstname', 'lastname', 'phoneNumber', 'avatar'],
-    //             },
-    //         ],
-    //     });
-    //     return {
-    //         success: true,
-    //         user: user,
-    //     };
-    // }
+    async getProfile(userID) {
+        const user = await db.User.findOne({
+            where: { id: userID },
+            attributes: {
+                exclude: ['password'],
+            },
+        });
+        return {
+            success: true,
+            user: user,
+        };
+    }
 }
 module.exports = new UserServices();

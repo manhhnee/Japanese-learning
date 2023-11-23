@@ -28,6 +28,7 @@ class UserServices {
             first_name: data.first_name,
             last_name: data.last_name,
             mail: data.email,
+            role: data.role,
             password: hashPassword(data.password),
         });
         // await sendEmail('<h1 style="color:red">😍 register successfully 😍</h1>', 'PBL6_message', data.email);

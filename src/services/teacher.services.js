@@ -10,7 +10,7 @@ class teacherService {
             offset = (page - 1) * limit;
         }
         if (!limit) {
-            limit = 100;
+            limit = 1000;
         }
 
         const searchCondition = search ? { nick_name: { [Op.like]: `%${search}%` } } : {};
